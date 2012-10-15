@@ -1,0 +1,250 @@
+######
+PyGL2D 
+######
+
+A 2D Graphics Library for PyGame and PyOpenGL.
+
+************
+REQUIREMENTS
+************
+
+- Python v2.5.2      - http://python.org/
+- PyGame v1.8.1      - http://pygame.org/
+- PyOpenGL v3.0.0b5  - http://pyopengl.sf.net/
+
+*************
+DOCUMENTATION
+*************
+
+pygl2d.draw
+===========
+
+PyGL2D's draw module lets you render graphics primitives, including
+lines, polygons, circles, and rects. It supports antialiasing,
+alpha/transparency, and coloring. Remember colors in this module
+are based on an RGB scale of 0-255.
+
+draw.line(point1, point2, color, width=1, aa=True, alpha=255.0)
+---------------------------------------------------------------
+
+Draw a line from point1 to point2. color is the color of the line on an RGB 
+scale, width is the width of the line, aa is whether or not to antialias the 
+lines, and alpha is the alpha of the line.
+
+draw.lines(points, color, width=1, aa=True, closed=0, alpha=255.0)
+------------------------------------------------------------------
+
+Draw a series of lines. Note that the edges of the lines with thick widths are 
+"blocky".
+  
+draw.polygon(points, color, aa=True, alpha=255.0)
+-------------------------------------------------
+
+Draw a filled polygon. This does not suffer from the "blocky" artifact.
+
+draw.rect(rectstyle, color, width=0, alpha=255.0)
+-------------------------------------------------
+
+Draw a rect. rectstyle should be a tuple or list in the style of 
+(x, y, width, height). You can use width to set the width of the rect's edges 
+(and take out it's color filling)
+
+draw.circle(pos, radius, color, alpha=255.0)
+--------------------------------------------
+
+Draw a circle at pos. radius should be the radius of the angle. Note that this 
+function is VERY slow, as it is just a series of lines drawn at an angle.
+
+pygl2d.font
+===========
+
+The PyGL2D RenderText class allows you to render text with pygame fonts.
+It also allows you to perform transformations to it, such as rotation,
+scaling, and coloring.
+
+class RenderText(object)
+------------------------
+
+__init__(text, color, font)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+create a text to be rendered.
+  
+change_text(text, color='default') <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+change the text string. Leave color at 'default' if you want to use the previous color.
+  
+draw(pos)
+^^^^^^^^^
+
+draw the text at 'pos'. Note that pos is the topleft of the text.
+  
+rotate(rotation)
+^^^^^^^^^^^^^^^^
+  
+rotate the text to 'rotation', on a scale of 0-360 degrees.
+  
+scale(scale)
+^^^^^^^^^^^^
+  
+scale the text to 'scale', where 1.0 is the default scale of the text.
+  
+colorize(r, g, b, a)
+^^^^^^^^^^^^^^^^
+  
+color the text on an RGBA scale. Remember this uses numeral from 0-255.
+  
+delete()
+^^^^^^^^
+  
+Delete the text rendering from the memory, including it's opengl textures.
+
+get_width(), get_height()
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+return the text's width and height.
+  
+get_rect()
+^^^^^^^^^^
+
+return a rect the size of the text.
+
+pygl2d.geometry
+===============
+
+PyGL2D's geometry module lets you execute some simple geometry functions, such
+as circle collisions and line collisions. It has some other functions, but
+they're not working correctly right now. Sorry!
+
+geometry.line_collision(a, b) <- return bool
+--------------------------------------------
+
+Detects a collision between line a, and line b.
+
+geometry.poly_collision(poly1, poly2) <- return bool
+----------------------------------------------------
+
+Detects a collision between two polys.
+
+geometry.circle_collision(p1, p2, r1, r2) <- return bool
+--------------------------------------------------------
+
+Detects a collision between 2 circles. p1 and r1 should be the position and 
+radius of the first circle, respectively. p2 and r2 should be the position and 
+radius of the second circle, respectively.
+
+pygl2d.image
+============
+
+The Image object for PyGL2D allows you to load images and draw them. It also 
+lets you perform transformations, such as scaling, rotating, and coloring. 
+Remember when drawing the image that (0, 0) is the topleft corner of the screen.
+
+class Image(object)
+-------------------
+
+__init__(filename) <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+initialise the Image. filename should be a path to the image file. Note that it 
+CAN also be a pygame Surface.
+   
+delete() <- return None
+^^^^^^^^^^^^^^^^^^^^^^^
+
+delete the image from the memory, including it's OpenGL texture.
+
+draw(pos) <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+draws the image to the main screen at pos. Currently does not support drawing 
+to other images.
+
+scale(scale) <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+scale the image where 1.0 is the image's default size.
+
+rotate(rotation) <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+rotate the image to the angle (rotation) given in degrees. e.g. image.scale(45)
+ 
+colorize(r, g, b, a) <- return None
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+color the image on an RGBA scale of 0-255. If you want to make your image 
+transparent, use the "a" value.
+
+get_width(self) <- return int
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+returns the width of the original image. Does not provide alterations when the 
+image is rotated, but it does support alterations in scaling.
+   
+get_height(self) <- return int
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+functions the same as get_width(), only it returns the image's height instead 
+of width
+   
+get_rect(self) <- return rect.Rect
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+returns a rect the size of the image.
+
+pygl2d.rect
+===========
+
+PyGL2D's rect module provides a class similar to pygame's rect. It supports
+floating point numbers, but it misses alot of pygame's rect functions.
+
+class rect.Rect(object)
+-----------------------
+
+__init__(self, x, y, w, h)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+  
+init the Rect. x and y should be its topleft position, and w and h should be 
+its width and height.
+  
+move(dx, dy) <- return Rect
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Create a new rect moved the amount of dx and dy.
+  
+move_ip(dx, dy)
+^^^^^^^^^^^^^^^
+
+Move the rect the amount of dx and dy.
+  
+colliderect(rect)
+^^^^^^^^^^^^^^^^^
+
+Check for a collision between another rect.
+  
+collidepoint(point)
+^^^^^^^^^^^^^^^^^^^
+
+Check for a collision between the rect and a point.
+
+pygl2d.window
+=============
+
+PyGL2D's window module is for setting up the window for drawing.
+
+window.init(size, caption="", flags=DOUBLEBUF)
+----------------------------------------------
+
+Initialise the SDL/PyGame window.
+
+window.begin_draw()
+-------------------
+
+Call this right before you begin drawing your objects.
+
+window.end_draw()
+-----------------
+
+And always call this after you're done drawing.
