@@ -21,10 +21,9 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import pygame
-from pygame.locals import *
 
-import rect, window
-from math import *
+import rect
+from math import pow, floor, log, ceil
 
 WRAP = 0
 FILTER = 1
@@ -92,13 +91,9 @@ def Texture(surface, filters):
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
 	return texture
 
-#Again, thanks Ian :)
 class Image:
 	
-	def __init__(self, filename, filters=[FILTER]):
-		"""Load an image for drawing. <- return None
-		"""
-		
+	def __init__(self, surface_size, filename, filters=[FILTER]):
 		#load pygame image
 		if type(filename) == str or type(filename) == file:
 			image = pygame.image.load(filename)
@@ -123,7 +118,7 @@ class Image:
 		self.height = self.h = image.get_height()
 		self.size = image.get_size()
 
-		self.win_size = window.get_size()
+		self.win_size = surface_size
 			
 		#image mods
 		self.rotation = 0
@@ -148,44 +143,24 @@ class Image:
 		del self
 
 	def scale(self, scale):
-		"""Scale the image on a ratio of 0.0 to 1.0 <- return None
-		"""
-		
 		self.scalar = scale
 	
 	def rotate(self, rotation):
-		"""Rotate the image on a ratio of 0.0 to 360 <- return None
-		"""
-		
 		self.rotation = rotation
 	
 	def colorize(self, r, g, b, a):
-		"""Color an image on a RGBA (0-255) scale. <- return None
-		"""
-		
 		self.color = (r / 255.0, g / 255.0, b / 255.0, a / 255.0)
 	
 	def get_width(self):
-		"""Returns the width of the image. <- return int
-		"""
-		
 		return self.image.get_width() * self.scalar
 	
 	def get_height(self):
-		"""Returns the height of the image. <- return int
-		"""
-		
 		return self.image.get_height() * self.scalar
 	
 	def get_rect(self):
-		"""Get the rect of the image. <- return rect.Rect
-		"""
-		
 		return rect.Rect(0, 0, self.get_width(), self.get_height())
 		
 	def draw(self, pos):
-		"""Draw the image to a certain position <- return None
-		"""
 		glPushMatrix()
 		#print pos[0]+self.ox, self.win_size[1] - pos[1] - self.oy
 		glTranslatef(pos[0] + self.ox, self.win_size[1] - pos[1] - self.oy, 0)

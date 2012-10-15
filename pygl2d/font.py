@@ -25,14 +25,14 @@ from OpenGL.GLU import *
 
 class RenderText(object):
     
-    def __init__(self, text, color, font):
+    def __init__(self, surface_size, text, color, font):
         """Create a new font render <- return None
         """
         
         self.font = font
         self.text = text
         self.color = color
-        self.ren = image.Image(self.font.render(self.text, 1, self.color))
+        self.ren = image.Image(surface_size, self.font.render(self.text, 1, self.color))
     
     def change_text(self, text, color="default"):
         """Change the font render's text. <- return None

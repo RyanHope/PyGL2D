@@ -5,6 +5,9 @@ sdist:
 	
 upload:
 	python setup.py sdist upload
+
+install:
+	python setup.py install
 	
 tag:
 	git tag v$(APP_VERSION) -m "v$(APP_VERSION)"

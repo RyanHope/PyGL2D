@@ -17,58 +17,19 @@
 # along with PyGL2D.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
-import sys, os
-
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
 import pygame
-from pygame.locals import *
 
-SCREEN_SIZE = [800, 600]
-
-def init(size, caption="PyGL2D App", flags=DOUBLEBUF):
-    """Initialise pygame and pyopengl <- return None
-    """
-    
-    global SCREEN_SIZE
-    SCREEN_SIZE = size
-    
-    flags |= OPENGL
-    
-    os.environ["SDL_VIDEO_CENTERED"] = "1"
-    pygame.init()
-    
-    pygame.display.set_caption(caption)
-    screen = pygame.display.set_mode(SCREEN_SIZE, flags)
-    
-    init_gl()
-
-def begin_draw():
-    """Begin drawing <- return None
-    """
-    
+def begin_draw(surface_size):
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    enable2D((0, SCREEN_SIZE[0], 0, SCREEN_SIZE[1]))
+    enable2D((0, surface_size[0], 0, surface_size[1]))
 
 def end_draw():
-    """End drawing <- return None
-    """
-    
     disable2D()
     pygame.display.flip()
-
-def get_size():
-    """Get the size of the window <- return tuple
-    """
-    
-    return pygame.display.get_surface().get_size()
-
-
-######################################################
-###################### INTERNAL ######################
-######################################################
 
 def init_gl():
     glEnable(GL_BLEND)
