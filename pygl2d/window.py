@@ -48,7 +48,7 @@ def begin_draw():
     """Begin drawing <- return None
     """
     
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
     enable2D((0, SCREEN_SIZE[0], 0, SCREEN_SIZE[1]))
 
@@ -82,13 +82,13 @@ def init_gl():
     glEnable(GL_ALPHA_TEST)
     glDepthFunc(GL_LEQUAL)
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
-    glAlphaFunc(GL_NOTEQUAL,0.0)
+    glAlphaFunc(GL_NOTEQUAL, 0.0)
     
 def enable2D(rect):
     glMatrixMode(GL_PROJECTION)
     glPushMatrix()
     glLoadIdentity()
-    glOrtho(rect[0],rect[0]+rect[1],rect[2],rect[2]+rect[3], -1, 1)
+    glOrtho(rect[0], rect[0] + rect[1], rect[2], rect[2] + rect[3], -1, 1)
     glMatrixMode(GL_MODELVIEW)
     glPushMatrix()
     glLoadIdentity()
