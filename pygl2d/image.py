@@ -100,7 +100,7 @@ class Image:
 		"""
 		
 		#load pygame image
-		if type("") is type(filename):
+		if type(filename) == str or type(filename) == file:
 			image = pygame.image.load(filename)
 		else:
 			image = filename
