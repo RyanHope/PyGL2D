@@ -19,4 +19,4 @@
 
 import window, image, draw, font, rect, geometry
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
