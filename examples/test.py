@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-#import pygame
+import os
 import pygame
 from pygame.locals import *
 
@@ -10,6 +10,8 @@ import pygl2d
 
 from math import *
 
+screen_size = (640, 480)
+
 #Class for the lil' dude that looks like me
 class Player(object):
     
@@ -17,7 +19,7 @@ class Player(object):
         self.angle = 0
         self.alpha = 255.0
         self.scale = 0.75
-        self.image = pygl2d.image.Image("mike.png")
+        self.image = pygl2d.image.Image(screen_size, "mike.png")
         self.rect = self.image.get_rect()
         self.rect.topleft = [100, 100]
 
@@ -30,7 +32,10 @@ class Player(object):
 def main():
     
     #init pygl2d
-    pygl2d.window.init([640, 480])
+    os.environ['SDL_VIDEO_WINDOW_POS'] = 'center'
+    pygame.init()
+    pygame.display.set_mode(screen_size, pygame.DOUBLEBUF | pygame.OPENGL)
+    pygl2d.window.init_gl()
     
     #create starting objects
     clock = pygame.time.Clock()
@@ -38,8 +43,8 @@ def main():
     
     #Create some text
     font = pygame.font.SysFont("Courier New", 32, bold=True)
-    fps_display = pygl2d.font.RenderText("", [0, 0, 0], font)
-    roto_text = pygl2d.font.RenderText("Rotated Text!", [255, 0, 255], font)
+    fps_display = pygl2d.font.RenderText(screen_size, "", [0, 0, 0], font)
+    roto_text = pygl2d.font.RenderText(screen_size, "Rotated Text!", [255, 0, 255], font)
     roto_text.rotate(45)
     roto_text.scale(2.0)
     roto_text.colorize(255, 255, 255, 150)
@@ -86,21 +91,21 @@ def main():
         #######################
         #### BEGIN DRAWING ####
         #######################
-        pygl2d.window.begin_draw()
+        pygl2d.window.begin_draw(screen_size)
        
         #fill the background with a white rect
-        pygl2d.draw.rect([0, 0, 640, 480], [255, 255, 255])
+        pygl2d.draw.rect(screen_size, [0, 0, 640, 480], [255, 255, 255])
         
         ######################
         #### LINE DRAWING ####
         ######################
         
         #Draw a line
-        pygl2d.draw.line([0, 0], [640, 240], [0, 255, 0], 14)
+        pygl2d.draw.line(screen_size, [0, 0], [640, 240], [0, 255, 0], 14)
         
         #Draw some lists of lines
-        pygl2d.draw.lines(poly1, [255, 0, 255], width=3, closed=1)
-        pygl2d.draw.lines(poly2, [0, 0, 100], width=3, closed=1)
+        pygl2d.draw.lines(screen_size, poly1, [255, 0, 255], width=3, closed=1)
+        pygl2d.draw.lines(screen_size, poly2, [0, 0, 100], width=3, closed=1)
 
         ######################
         #### RECT DRAWING ####
@@ -119,7 +124,7 @@ def main():
             rect_speed = -50
             
         #draw the rect
-        pygl2d.draw.rect(rect, color, width=4)
+        pygl2d.draw.rect(screen_size, rect, color, width=4)
         
         #########################
         #### DRAW THE PLAYER ####
@@ -131,7 +136,7 @@ def main():
         ###############################
         #### DRAW AN ALPHA POLYGON ####
         ###############################
-        pygl2d.draw.polygon([[320, 0], [250, 140], [390, 140]], [255, 200, 0], alpha=200)
+        pygl2d.draw.polygon(screen_size, [[320, 0], [250, 140], [390, 140]], [255, 200, 0], alpha=200)
         
         #####################
         #### RENDER TEXT ####
