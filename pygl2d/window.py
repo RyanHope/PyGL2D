@@ -25,7 +25,7 @@ import pygame
 def begin_draw(surface_size):
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
-    enable2D((0, surface_size[0], 0, surface_size[1]))
+    enable2D(surface_size)
 
 def end_draw():
     disable2D()
@@ -45,11 +45,11 @@ def init_gl():
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
     glAlphaFunc(GL_NOTEQUAL, 0.0)
     
-def enable2D(rect):
+def enable2D((width, height)):
     glMatrixMode(GL_PROJECTION)
     glPushMatrix()
     glLoadIdentity()
-    glOrtho(rect[0], rect[0] + rect[1], rect[2], rect[2] + rect[3], -1, 1)
+    glOrtho(0, width, height, 0, -1, 1)
     glMatrixMode(GL_MODELVIEW)
     glPushMatrix()
     glLoadIdentity()

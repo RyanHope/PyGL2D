@@ -93,7 +93,7 @@ def Texture(surface, filters):
 
 class Image:
 	
-	def __init__(self, surface_size, filename, filters=[FILTER]):
+	def __init__(self, filename, filters=[FILTER]):
 		#load pygame image
 		if type(filename) == str or type(filename) == file:
 			image = pygame.image.load(filename)
@@ -117,8 +117,6 @@ class Image:
 		self.width = self.w = image.get_width()
 		self.height = self.h = image.get_height()
 		self.size = image.get_size()
-
-		self.win_size = surface_size
 			
 		#image mods
 		self.rotation = 0
@@ -131,10 +129,10 @@ class Image:
 		glNewList(self.dl, GL_COMPILE)
 		glBindTexture(GL_TEXTURE_2D, self.texture)
 		glBegin(GL_QUADS)
-		glTexCoord2f(0, 1 - fracH); glVertex3f(-self.width / 2.0, -self.height / 2.0, 0)
-		glTexCoord2f(fracW, 1 - fracH); glVertex3f(self.width / 2.0, -self.height / 2.0, 0)
-		glTexCoord2f(fracW, 1.0); glVertex3f(self.width / 2.0, self.height / 2.0, 0)
-		glTexCoord2f(0, 1.0); glVertex3f(-self.width / 2.0, self.height / 2.0, 0)
+		glTexCoord2f(0, 1); glVertex3f(-self.width / 2.0, -self.height / 2.0, 0)
+		glTexCoord2f(fracW, 1); glVertex3f(self.width / 2.0, -self.height / 2.0, 0)
+		glTexCoord2f(fracW, 1 - fracH); glVertex3f(self.width / 2.0, self.height / 2.0, 0)
+		glTexCoord2f(0, 1 - fracH); glVertex3f(-self.width / 2.0, self.height / 2.0, 0)
 		glEnd()
 		glEndList()
 	
@@ -162,10 +160,9 @@ class Image:
 		
 	def draw(self, pos):
 		glPushMatrix()
-		#print pos[0]+self.ox, self.win_size[1] - pos[1] - self.oy
-		glTranslatef(pos[0] + self.ox, self.win_size[1] - pos[1] - self.oy, 0)
+		glTranslatef(pos[0] + self.ox, pos[1] + self.oy, 0)
 		glColor4f(*self.color)
-		glRotatef(self.rotation, 0, 0, 1)
+		glRotatef(-1*self.rotation, 0, 0, 1)
 		glScalef(self.scalar, self.scalar, self.scalar)
 		glCallList(self.dl)
 		glPopMatrix()
