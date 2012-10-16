@@ -25,8 +25,8 @@ def rotate_point(point, center_point, angle):
     
     p = [point[0] - center_point[0], point[1] - center_point[1]]
     print p, center_point
-    x = int(p[0]*math.cos(math.radians(-angle)) - p[1]*math.sin(math.radians(-angle)))
-    y = int(p[0]*math.sin(math.radians(-angle)) + p[1]*math.cos(math.radians(-angle)))
+    x = int(p[0] * math.cos(math.radians(-angle)) - p[1] * math.sin(math.radians(-angle)))
+    y = int(p[0] * math.sin(math.radians(-angle)) + p[1] * math.cos(math.radians(-angle)))
     x += center_point[0]
     y += center_point[1]
     return [x, y]
@@ -55,7 +55,7 @@ def center_of_poly(poly):
             by = p[1]
         if p[1] < sy:
             sy = p[1]
-    return ((bx-sx)/2, (by-sy)/2)
+    return ((bx - sx) / 2, (by - sy) / 2)
 
 def line_collision(a, b):
     """Detects a collision between two lines <- return bool
@@ -68,21 +68,21 @@ def line_collision(a, b):
     
     a1 = e1[0] - s1[0]
     b1 = e1[1] - s1[1]
-    c1 = e1[0]*s1[1] - s1[0]*e1[1]
+    c1 = e1[0] * s1[1] - s1[0] * e1[1]
 
     a2 = e2[0] - s2[0]
     b2 = e2[1] - s2[1]
-    c2 = e2[0]*s2[1] - s2[0]*e2[1]
+    c2 = e2[0] * s2[1] - s2[0] * e2[1]
     
-    denom = a1*b2 - a2*b1
+    denom = a1 * b2 - a2 * b1
     
     if denom <= 0.0001:
         return False
     
-    numA = (e2[0] - s2[0])*(s1[1] - s2[1]) - (e2[1] - s2[1])*(s1[0] - s2[0])
-    numB = (e1[0] - s1[0])*(s1[1] - s2[1]) - (e1[1] - s1[1])*(s1[0] - s2[0])
+    numA = (e2[0] - s2[0]) * (s1[1] - s2[1]) - (e2[1] - s2[1]) * (s1[0] - s2[0])
+    numB = (e1[0] - s1[0]) * (s1[1] - s2[1]) - (e1[1] - s1[1]) * (s1[0] - s2[0])
     
-    result = [(a2*c1 - a1*c2) / denom, -(b1*c2 - b2*c1 / denom)]
+    result = [(a2 * c1 - a1 * c2) / denom, -(b1 * c2 - b2 * c1 / denom)]
     Ta = numA / float(denom)
     Tb = numB / float(denom)
     if (Ta >= 0 and Ta <= 1) and (Tb >= 0 and Tb <= 1):
@@ -94,7 +94,7 @@ def circle_collision(p1, p2, r1, r2):
     """Detects a collision between two circles <- return bool
     """
     
-    if ((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2) <= (r1 + r2):
+    if ((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2) <= (r1 + r2):
         return True
     return False
 
@@ -106,9 +106,9 @@ def poly_collision(poly1, poly2):
     lines1 = []
     lines2 = []
     for n in xrange(len(poly1)):
-        lines1.append([poly1[n-1], poly1[n]])
+        lines1.append([poly1[n - 1], poly1[n]])
     for n in xrange(len(poly2)):
-        lines2.append([poly2[n-1], poly2[n]])
+        lines2.append([poly2[n - 1], poly2[n]])
     for l1 in lines1:
         for l2 in lines2:
             c = line_collision(l1, l2)

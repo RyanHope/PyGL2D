@@ -82,13 +82,13 @@ class RenderText(object):
         """Returns the width of the font rendered image. <- return int
         """
         
-        return self.ren.get_width()*self.ren.scalar
+        return self.ren.get_width() * self.ren.scalar
     
     def get_height(self):
         """Returns the height of the font rendered image. <- return int
         """
         
-        return self.ren.get_height()*self.ren.scalar
+        return self.ren.get_height() * self.ren.scalar
     
     def get_rect(self):
         """Get the rect of the font rendered image. <- return rect.Rect

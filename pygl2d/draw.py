@@ -39,13 +39,13 @@ def line(surface_size, point1, point2, color, width=1, aa=True, alpha=255.0):
     if aa:
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
-    glColor4f(color[0]/255.0, color[1]/255.0, color[2]/255.0, alpha/255.0)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     glBegin(GL_LINE_STRIP)
     offset = surface_size[1]
     glVertex3f(point1[0], offset - point1[1], 0)
     glVertex3f(point2[0], offset - point2[1], 0)
     glEnd()
-    glColor3f(1.0,1.0,1.0)
+    glColor3f(1.0, 1.0, 1.0)
     glEnable(GL_TEXTURE_2D)
     
 def lines(surface_size, points, color, width=1, aa=True, closed=0, alpha=255.0):
@@ -54,7 +54,7 @@ def lines(surface_size, points, color, width=1, aa=True, closed=0, alpha=255.0):
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
     glBegin(GL_LINE_STRIP)
-    glColor4f(color[0]/255.0, color[1]/255.0, color[2]/255.0, alpha/255.0)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     offset = surface_size[1]
     points = flip_points(points)
     for p in points:
@@ -62,7 +62,7 @@ def lines(surface_size, points, color, width=1, aa=True, closed=0, alpha=255.0):
     if closed:
         glVertex3f(points[0][0], offset - points[0][1], 0)
     glEnd()
-    glColor3f(1.0,1.0,1.0)
+    glColor3f(1.0, 1.0, 1.0)
     glDisable(GL_LINE_SMOOTH)
     glEnable(GL_TEXTURE_2D)
     
@@ -81,19 +81,19 @@ def polygon(surface_size, points, color, aa=True, alpha=255.0):
     if aa:
         glEnable(GL_POLYGON_SMOOTH)
     glBegin(GL_POLYGON)
-    glColor4f(color[0]/255.0, color[1]/255.0, color[2]/255.0, alpha/255.0)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     offset = surface_size[1]
     points = flip_points(points)
     for p in points:
         glVertex3f(p[0], offset - p[1], 0)
     glEnd()
-    glColor3f(1.0,1.0,1.0)
+    glColor3f(1.0, 1.0, 1.0)
     glDisable(GL_POLYGON_SMOOTH)
     glEnable(GL_TEXTURE_2D)
 
 def rect(surface_size, rectstyle, color, width=0, alpha=255.0):
     x, y, w, h = rectstyle
-    points = [[x, y], [x+w, y], [x+w, y+h], [x, y+h]]
+    points = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
     points = flip_points(points)
     if not width:
         polygon(surface_size, points, color, aa=False, alpha=alpha)
