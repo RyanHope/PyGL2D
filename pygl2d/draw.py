@@ -17,6 +17,8 @@
 # along with PyGL2D.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
+import numpy
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
@@ -74,6 +76,19 @@ def point(surface_size, point, color, size=1.0, alpha=255.0):
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     glVertex3f(point[0], offset - point[1], 0)
     glEnd()
+    glEnable(GL_TEXTURE_2D)
+    
+def points(surface_size, points, color, size=1.0, alpha=255.0):
+    glDisable(GL_TEXTURE_2D)
+    offset = surface_size[1]
+    points = numpy.array(zip(*points))
+    points[1] = offset - points[1]
+    points = zip(*points)
+    glPointSize(size)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, points)
+    glDrawElementsui(GL_POINTS, numpy.arange(len(points), dtype="i"))
     glEnable(GL_TEXTURE_2D)
 
 def polygon(surface_size, points, color, aa=True, alpha=255.0):
