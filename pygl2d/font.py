@@ -17,7 +17,7 @@
 # along with PyGL2D.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
-import image, rect
+import image
 import pygame
 
 from OpenGL.GL import *
@@ -93,5 +93,5 @@ class RenderText(object):
         """Get the rect of the font rendered image. <- return rect.Rect
         """
         
-        return rect.Rect(0, 0, self.get_width(), self.get_height())
+        return pygame.rect.Rect(0, 0, self.get_width(), self.get_height())
 

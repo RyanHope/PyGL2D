@@ -22,7 +22,6 @@ from OpenGL.GLU import *
 
 import pygame
 
-import rect
 from math import pow, floor, log, ceil
 
 WRAP = 0
@@ -156,7 +155,7 @@ class Image:
 		return self.image.get_height() * self.scalar
 	
 	def get_rect(self):
-		return rect.Rect(0, 0, self.get_width(), self.get_height())
+		return pygame.rect.Rect(0, 0, self.get_width(), self.get_height())
 		
 	def draw(self, pos):
 		glPushMatrix()
