@@ -22,14 +22,11 @@ from OpenGL.GLU import *
 
 import pygame
 
-def begin_draw(surface_size):
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-    glLoadIdentity()
-    enable2D(surface_size)
-
-def end_draw():
-    disable2D()
-    pygame.display.flip()
+def set_mode(resolution=(0,0), flags=pygame.DOUBLEBUF, depth=0):
+    flags |= pygame.OPENGL
+    screen = pygame.display.set_mode(resolution, flags, depth)
+    init_gl()
+    return screen
 
 def init_gl():
     glEnable(GL_BLEND)
@@ -44,6 +41,15 @@ def init_gl():
     glDepthFunc(GL_LEQUAL)
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
     glAlphaFunc(GL_NOTEQUAL, 0.0)
+
+def begin_draw(surface_size):
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glLoadIdentity()
+    enable2D(surface_size)
+
+def end_draw():
+    disable2D()
+    pygame.display.flip()
     
 def enable2D((width, height)):
     glMatrixMode(GL_PROJECTION)

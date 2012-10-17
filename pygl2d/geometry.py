@@ -102,7 +102,6 @@ def poly_collision(poly1, poly2):
     """Detect a collision between two polygons <- return bool
     """
     
-    collisions = []
     lines1 = []
     lines2 = []
     for n in xrange(len(poly1)):
@@ -114,5 +113,4 @@ def poly_collision(poly1, poly2):
             c = line_collision(l1, l2)
             if c:
                 return True
-                #collisions.append(c)
     return False

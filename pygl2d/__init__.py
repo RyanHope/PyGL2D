@@ -17,6 +17,6 @@
 # along with PyGL2D.  If not, see <http://www.gnu.org/licenses/>.
 #===============================================================================
 
-import window, image, draw, font, geometry
+import display, image, draw, font, geometry
 
 __version__ = "0.3.3"
