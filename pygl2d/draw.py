@@ -34,24 +34,31 @@ def flip_points(points):
         new.append([p[0], (highest + p[1]) - height])
     return new
 
-def line(point1, point2, color, width=1, aa=True, alpha=255.0):
+def line(point1, point2, color, width=1, aa=True, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
     glLineWidth(width)
     if aa:
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
+    if stipple_factor:
+        glLineStipple(stipple_factor, stipple_pattern)
+        glEnable(GL_LINE_STIPPLE)
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     glBegin(GL_LINE_STRIP)
     glVertex3f(point1[0], point1[1], 0)
     glVertex3f(point2[0], point2[1], 0)
     glEnd()
+    glDisable(GL_LINE_STIPPLE)
     glColor3f(1.0, 1.0, 1.0)
     glEnable(GL_TEXTURE_2D)
     
-def lines(points, color, width=1, aa=True, closed=0, alpha=255.0):
+def lines(points, color, width=1, aa=True, closed=0, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
     glLineWidth(width)
     if aa:
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
+    if stipple_factor:
+        glLineStipple(stipple_factor, stipple_pattern)
+        glEnable(GL_LINE_STIPPLE)
     glBegin(GL_LINE_STRIP)
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     points = flip_points(points)
@@ -61,6 +68,7 @@ def lines(points, color, width=1, aa=True, closed=0, alpha=255.0):
         glVertex3f(points[0][0], points[0][1], 0)
     glEnd()
     glColor3f(1.0, 1.0, 1.0)
+    glDisable(GL_LINE_STIPPLE)
     glDisable(GL_LINE_SMOOTH)
     glEnable(GL_TEXTURE_2D)
     
@@ -97,14 +105,14 @@ def polygon(points, color, aa=True, alpha=255.0):
     glDisable(GL_POLYGON_SMOOTH)
     glEnable(GL_TEXTURE_2D)
 
-def rect(rectstyle, color, width=0, alpha=255.0):
+def rect(rectstyle, color, width=0, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
     x, y, w, h = rectstyle
     points = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
     points = flip_points(points)
     if not width:
         polygon(points, color, aa=False, alpha=alpha)
     else:
-        lines(points, color, width=width, aa=False, alpha=alpha, closed=1)
+        lines(points, color, width=width, aa=False, alpha=alpha, closed=1, stipple_factor=stipple_factor, stipple_pattern=stipple_pattern)
 
 def circle(pos, radius, color, alpha=255.0):
     w, x, y = color
