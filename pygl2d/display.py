@@ -22,7 +22,7 @@ from OpenGL.GLU import *
 
 import pygame
 
-def set_mode(resolution=(0,0), flags=pygame.DOUBLEBUF, depth=0):
+def set_mode(resolution=(0,0), flags=0, depth=0):
     flags |= pygame.OPENGL
     screen = pygame.display.set_mode(resolution, flags, depth)
     init_gl()
