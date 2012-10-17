@@ -22,6 +22,8 @@ from OpenGL.GLU import *
 
 import pygame
 
+from contextlib import contextmanager
+
 def set_mode(resolution=(0,0), flags=0, depth=0):
     flags |= pygame.OPENGL
     screen = pygame.display.set_mode(resolution, flags, depth)
@@ -65,3 +67,10 @@ def disable2D():
     glPopMatrix()
     glMatrixMode(GL_MODELVIEW)
     glPopMatrix()
+
+@contextmanager   
+def scissor_box(screen_size, box):
+    glEnable(GL_SCISSOR_TEST)
+    glScissor(box.left, screen_size[1] - box.bottom, box.width, box.height)
+    yield
+    glDisable(GL_SCISSOR_TEST)
