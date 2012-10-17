@@ -2,7 +2,7 @@
 PyGL2D 
 ######
 
-A 2D Graphics Library for PyGame and PyOpenGL.
+A 2D Graphics Library for PyGame using PyOpenGL.
 
 ************
 REQUIREMENTS
