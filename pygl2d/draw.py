@@ -118,6 +118,14 @@ def rect(rectstyle, color, width=0, alpha=255.0, stipple_factor=0, stipple_patte
     else:
         lines(points, color, width=width, aa=False, alpha=alpha, closed=1, stipple_factor=stipple_factor, stipple_pattern=stipple_pattern)
 
+def rect2(rectstyle, color, alpha=255.0, stipple_pattern=None):
+    x, y, w, h = rectstyle
+    glDisable(GL_TEXTURE_2D)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
+    glRectf(x, y, x + w, y + h)
+    glColor3f(1.0, 1.0, 1.0)
+    glEnable(GL_TEXTURE_2D)
+
 def circle(pos, radius, color, alpha=255.0):
     w, x, y = color
     w = w / 255.0 if w else 0
