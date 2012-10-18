@@ -69,8 +69,16 @@ def disable2D():
     glPopMatrix()
 
 @contextmanager   
-def scissor_box(screen_size, box):
+def scissor_box(rect):
     glEnable(GL_SCISSOR_TEST)
-    glScissor(box.left, screen_size[1] - box.bottom, box.width, box.height)
+    glScissor(rect.left, int(glGetIntegerv(GL_VIEWPORT)[3]) - rect.bottom, rect.width, rect.height)
     yield
     glDisable(GL_SCISSOR_TEST)
+
+@contextmanager
+def subspace(rect):
+    glPushMatrix()
+    glTranslatef(rect.left, rect.top, 0)
+    with scissor_box(rect):
+        yield
+    glPopMatrix()
