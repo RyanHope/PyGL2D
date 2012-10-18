@@ -34,12 +34,12 @@ def flip_points(points):
         new.append([p[0], (highest + p[1]) - height])
     return new
 
-def line(point1, point2, color, width=1, aa=True, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
+def line(point1, point2, color, width=1, aa=True, alpha=255.0, stipple_factor=0, stipple_pattern=None):
     glLineWidth(width)
     if aa:
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
-    if stipple_factor:
+    if stipple_factor and stipple_pattern:
         glLineStipple(stipple_factor, stipple_pattern)
         glEnable(GL_LINE_STIPPLE)
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
@@ -51,12 +51,12 @@ def line(point1, point2, color, width=1, aa=True, alpha=255.0, stipple_factor=0,
     glColor3f(1.0, 1.0, 1.0)
     glEnable(GL_TEXTURE_2D)
     
-def lines(points, color, width=1, aa=True, closed=0, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
+def lines(points, color, width=1, aa=True, closed=0, alpha=255.0, stipple_factor=0, stipple_pattern=None):
     glLineWidth(width)
     if aa:
         glEnable(GL_LINE_SMOOTH)
     glDisable(GL_TEXTURE_2D)
-    if stipple_factor:
+    if stipple_factor and stipple_pattern:
         glLineStipple(stipple_factor, stipple_pattern)
         glEnable(GL_LINE_STIPPLE)
     glBegin(GL_LINE_STRIP)
@@ -91,10 +91,13 @@ def points(points, color, size=1.0, alpha=255.0):
     glDisableClientState(GL_VERTEX_ARRAY)
     glEnable(GL_TEXTURE_2D)
 
-def polygon(points, color, aa=True, alpha=255.0):
+def polygon(points, color, aa=True, alpha=255.0, stipple_pattern=None):
     glDisable(GL_TEXTURE_2D)
     if aa:
         glEnable(GL_POLYGON_SMOOTH)
+    if stipple_pattern:
+        glEnable(GL_POLYGON_STIPPLE)
+        glPolygonStipple(stipple_pattern)
     glBegin(GL_POLYGON)
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     points = flip_points(points)
@@ -102,15 +105,16 @@ def polygon(points, color, aa=True, alpha=255.0):
         glVertex3f(p[0], p[1], 0)
     glEnd()
     glColor3f(1.0, 1.0, 1.0)
+    glDisable(GL_POLYGON_STIPPLE)
     glDisable(GL_POLYGON_SMOOTH)
     glEnable(GL_TEXTURE_2D)
 
-def rect(rectstyle, color, width=0, alpha=255.0, stipple_factor=0, stipple_pattern=0x00FF):
+def rect(rectstyle, color, width=0, alpha=255.0, stipple_factor=0, stipple_pattern=None):
     x, y, w, h = rectstyle
     points = [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]
     points = flip_points(points)
     if not width:
-        polygon(points, color, aa=False, alpha=alpha)
+        polygon(points, color, aa=False, alpha=alpha, stipple_pattern=stipple_pattern)
     else:
         lines(points, color, width=width, aa=False, alpha=alpha, closed=1, stipple_factor=stipple_factor, stipple_pattern=stipple_pattern)
 
