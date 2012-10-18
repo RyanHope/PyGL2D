@@ -172,11 +172,11 @@ class Image:
 		glCallList(self.dl)
 		glPopMatrix()
 
-def load_xbm_stipple_pattern(filename):
+def load_xbm(filename):
 	if type(filename) != file:
 		filename = open(filename, "r")
 	s = xbm_head.match(filename.read(512))
-	if s and int(s.group(1)) == int(s.group(2)) == 32:
+	if s:
 		filename.seek(0)
 		data = filename.read().replace(s.group(0), "").replace("{", "").replace("}", "").replace(";", "")
 		filename.close()
