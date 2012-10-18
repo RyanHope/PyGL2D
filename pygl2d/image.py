@@ -20,6 +20,8 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
+import re
+
 import pygame
 
 from math import pow, floor, log, ceil
@@ -27,6 +29,10 @@ from math import pow, floor, log, ceil
 WRAP = 0
 FILTER = 1
 MIPMAP = 2
+
+xbm_head = re.compile(r'#define[ \t].*_width[ \t]([0-9]*)[\r\n]+'
+					  '#define[ \t].*_height[ \t]([0-9]*)[\r\n]+'
+					  '[\000-\377]*_bits\[\][ \t]=[ \t]')
 
 def closest_power_of_two (x):
 	return (pow(2, floor ((log (x) / log (2.0)) + 0.5)));
@@ -161,7 +167,17 @@ class Image:
 		glPushMatrix()
 		glTranslatef(pos[0] + self.ox, pos[1] + self.oy, 0)
 		glColor4f(*self.color)
-		glRotatef(-1*self.rotation, 0, 0, 1)
+		glRotatef(-1 * self.rotation, 0, 0, 1)
 		glScalef(self.scalar, self.scalar, self.scalar)
 		glCallList(self.dl)
 		glPopMatrix()
+
+def load_xbm_stipple_pattern(filename):
+	if type(filename) != file:
+		filename = open(filename, "r")
+	s = xbm_head.match(filename.read(512))
+	if s and int(s.group(1)) == int(s.group(2)) == 32:
+		filename.seek(0)
+		data = filename.read().replace(s.group(0), "").replace("{", "").replace("}", "").replace(";", "")
+		filename.close()
+		return map(lambda x: int(x, 16), "".join(data.split()).split(","))
