@@ -81,14 +81,24 @@ def point(point, color, size=1.0, alpha=255.0):
     glEnd()
     glEnable(GL_TEXTURE_2D)
     
-def points(points, color, size=1.0, alpha=255.0):
+def points(points, indices, color, size=1.0, alpha=255.0):
     glPointSize(size)
     glDisable(GL_TEXTURE_2D)
     glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
     glEnableClientState(GL_VERTEX_ARRAY)
     glVertexPointer(2, GL_FLOAT, 0, points)
-    glDrawElementsui(GL_POINTS, range(len(points)))
+    glDrawElementsui(GL_POINTS, indices)
     glDisableClientState(GL_VERTEX_ARRAY)
+    glEnable(GL_TEXTURE_2D)
+    
+def points2(points, color, size=1.0, alpha=255.0):
+    glPointSize(size)
+    glDisable(GL_TEXTURE_2D)
+    glBegin(GL_POINTS)
+    glColor4f(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0, alpha / 255.0)
+    for p in points:
+        glVertex2f(p[0], p[1])
+    glEnd()
     glEnable(GL_TEXTURE_2D)
 
 def polygon(points, color, aa=True, alpha=255.0, stipple_pattern=None):
